@@ -1,0 +1,19 @@
+{
+    "action.correlationsearch.label": "Correlation Search Name",
+    "author": "brendan.chamberlain@zoom.us|matt.devries@zoom.us",
+    "disabled": "0",
+    "description": "ADS Description",
+    "search": "correlation search here",
+    "dispatch.earliest_time": "Earliest time here",
+    "dispatch.latest_time": "Latest time here",
+    "cron_schedule": "Cron schedule here",
+    "action.notable.param.rule_title": "Notable rule title",
+    "action.notable.param.rule_description": "Notable rule description",
+    "action.notable.param.security_domain": "endpoint|threat|network|",
+    "action.notable.param.severity": "critical|high|medium|low|informational",
+    "action.notable.param.drilldown_name": "View related log entries",
+    "action.notable.param.drilldown_search": "",
+    "action.risk.param._risk_object_type": "system|user|other|N/A",
+    "action.risk.param._risk_score": "10|20|50|N/A",
+    "action.risk.param._risk_object": ""
+}
