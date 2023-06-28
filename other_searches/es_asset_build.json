@@ -1,1 +1,19 @@
-
+{
+        "action.correlationsearch.label": "es_asset_build",
+        "author": "admin",
+        "disabled": "0",
+        "description": "",
+        "search": "index=snow sourcetype=\"snow:cmdb_ci_computer\" discovery_source!=\"WORKSPACEONE airwatch\" discovery_source!=\"Qualys API\"\n| rename u_hostname as nt_host, mac_address as mac, U_tag_os as category1, u_dns1 as dns, u_tag_bizunit as bunit ip_address as ip\n| eval temp_category=mvappend(discovery_source, used_for,\"server\")\n| eval category=mvjoin(mvfilter(temp_category!=\"\"),\"|\")\n| eval temp_owner=mvappend(u_tag_jira, u_tag_owner)\n| eval owner=mvjoin(mvfilter(temp_owner!=\"\"),\"|\")\n| eval host_region=substr(u_region, 1, len(u_region)-1)\n| eval dns=rtrim(dns, \".\")\n| eval nt_host=ltrim(nt_host, \"\\\"\")\n| lookup aws_locations datacenter as host_region\n| table bunit, category, city, country, dns, ip, is_expected, lat, long, mac, nt_host, owner, pci_domain, priority\n| inputlookup append=t simple_asset_lookup \n| dedup nt_host, ip keepempty=t\n| outputlookup simple_asset_lookup",
+        "dispatch.earliest_time": "-24h@h",
+        "dispatch.latest_time": "now",
+        "cron_schedule": "0 */2 * * *",
+        "action.notable.param.rule_title": "N/A",
+        "action.notable.param.rule_description": "N/A",
+        "action.notable.param.security_domain": "N/A",
+        "action.notable.param.severity": "N/A",
+        "action.notable.param.drilldown_name": "N/A",
+        "action.notable.param.drilldown_search": "N/A",
+        "action.risk.param._risk_object_type": "N/A",
+        "action.risk.param._risk_score": "N/A",
+        "action.risk.param._risk_object": "N/A"
+}
