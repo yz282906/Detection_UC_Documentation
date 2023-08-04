@@ -28,7 +28,7 @@ This repository is used to create, manage, and automatically document Splunk Ent
 1. Open Splunk ES Search and run the following query (time range doesn't matter):
 
 ```
-| inputlookup es_products_lookup
+| tstats count where index=* by sourcetype
 | eval sourcetype_details="```index=".Index." sourcetype=".sourcetype."``` - ".description
 | stats values(Index) as indexes values(product_description) as product_description values(attack_datasource) as attack_datasources values(criticality) as criticality values(sourcetype_details) as sourcetype_details values(normalized) as normalized values(security_logs) as security_logs by product
 | eval normalized=if(match(normalized,"Yes") AND match(normalized,"No") OR match(normalized,"Yes") AND match(normalized,"Partially") OR match(normalized,"Partially"), "Partial", normalized)
@@ -36,10 +36,9 @@ This repository is used to create, manage, and automatically document Splunk Ent
 | fillnull criticality value="Not determined"
 | fillnull normalized value="Not determined"
 | fillnull security_logs value="Unknown"
-| fillnull product_description value="In progress, please contact the CyberDefense Detection team if you would like to contribute."
 ```
 
 2. Export results to a JSON file named “product_data_sources”
 3. Copy/paste the file into your local /inputs folder of this repository overwriting the old file
 4. Run the bin/esproducts-to-md.py Python script
-5. Copy results from the /docs/es_data_sources.md file. Edit the [Splunk ES Data Sources Confluence page](URL) and paste results (paste and match style) below the table of contents part overwriting existing content. Publish the page.
+5. Copy results from the /docs/es_data_sources.md file. Paste the results to Confluence page.
