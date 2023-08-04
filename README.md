@@ -14,14 +14,6 @@ This repository is used to create, manage, and automatically document Splunk Ent
 | rex field=search "(?<=index=)(?<index>[^\s]+)"
 | rex field=search "(?<=datamodel:)(?<datamodel>[^\s]+)"
 | rex field=search "(?<=datamodel=)(?<datamodel2>[^\s]+)"
-| eval datamodel=replace(mvindex(split(mvappend(datamodel, datamodel2),"."),0),"\"","")
-| lookup cim_datamodel_indexes datamodel as datamodel output index as dm_index
-| eval combined_indexes=mvappend(index, dm_index)
-| lookup es_products_lookup Index as combined_indexes OUTPUT product description as product_description
-| fillnull product value="Miscellaneous"
-| eval product=mvdedup(product)
-| eval updated_time = tonumber(mvindex(split(strptime(updated, "%Y-%m-%dT%H:%M:%S%:z"),"."),0)), updated=mvindex(split(updated,"T"),0)
-| fillnull index, datamodel, dm_index, action.correlationsearch.label, author, disabled, description, search, dispatch.earliest_time, dispatch.latest_time, cron_schedule, action.notable.param.rule_title, action.notable.param.rule_description, action.notable.param.security_domain, action.notable.param.severity, action.notable.param.drilldown_name, action.notable.param.drilldown_search, action.risk.param._risk_object_type, action.risk.param._risk_score, action.risk.param._risk_object value="N/A"
 | sort - updated_time
 | table updated_time, updated, title, index, datamodel, product, action.correlationsearch.label, author, disabled, description, search, dispatch.earliest_time, dispatch.latest_time, cron_schedule, action.notable.param.rule_title, action.notable.param.rule_description, action.notable.param.security_domain, action.notable.param.severity, action.notable.param.drilldown_name, action.notable.param.drilldown_search, action.risk.param._risk_object_type, action.risk.param._risk_score, action.risk.param._risk_object
 ```
